@@ -1,0 +1,18 @@
+# DiscordSRVVoid
+# Add UUIDs or exact player names here. UUIDs are preferred.
+blocked-players:
+  - "00000000-0000-0000-0000-000000000000"
+
+# Toggle which Minecraft -> DiscordSRV message types are suppressed for blocked players.
+blocked-events:
+  chat: true
+  death: true
+  advancement: true
+  join: true
+  leave: true
+
+# Log why a message was suppressed.
+debug: false
+
+# DO NOT MANUALLY CHANGE THIS.
+config-version: 1

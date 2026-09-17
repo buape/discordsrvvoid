@@ -1,0 +1,18 @@
+name: DiscordSRVVoid
+version: ${version}
+main: com.buape.discordsrvvoid.DiscordSRVVoid
+api-version: '1.20'
+author: Buape Studios
+depend: [DiscordSRV]
+load: POSTWORLD
+website: https://github.com/buape/discordsrvvoid
+description: Suppress configured players' Minecraft-to-DiscordSRV messages.
+commands:
+  discordsrvvoid:
+    usage: /discordsrvvoid reload
+    description: Reload DiscordSRVVoid configuration
+    permission: discordsrvvoid.reload
+permissions:
+  discordsrvvoid.reload:
+    default: op
+    description: Allows reloading DiscordSRVVoid configuration

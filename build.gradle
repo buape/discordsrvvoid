@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.buape'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT'
+    compileOnly 'com.discordsrv:discordsrv:1.27.0'
+}
+
+jar {
+    archiveBaseName = 'DiscordSRVVoid'
+}
