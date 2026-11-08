@@ -1,6 +1,6 @@
 # DiscordSRVVoid
 
-A tiny Paper/Spigot plugin that suppresses selected players' Minecraft-to-DiscordSRV messages while leaving everyone else alone.
+A tiny Paper/Spigot plugin that suppresses selected players' Minecraft-to-DiscordSRV messages while leaving everyone else alone, and provides a Discord `/playerlist` command.
 
 Useful for staff, alts, bots, or noisy players whose join/leave/death/advancement/chat messages should not be relayed to Discord.
 
@@ -166,6 +166,14 @@ Then run:
 
 ## Commands
 
+### `/playerlist` (Discord)
+
+Shows a public embed with the current online player count and alphabetically sorted Minecraft account names. An empty server shows “No players are currently online.” Long lists are truncated to Discord's embed limit with the remaining count shown.
+
+Players hidden by DiscordSRV's supported vanish integrations are excluded from both the names and count. `blocked-players` only controls message relaying, so those players still appear unless vanished.
+
+The command is registered through DiscordSRV in the Discord guilds its bot belongs to. No separate bot or token is needed. Restart the Minecraft server after installing the updated jar. The bot must have been invited with the `applications.commands` scope, and users need Discord's **Use Application Commands** permission in the channel. Server admins can restrict `/playerlist` through Discord's integration command permissions.
+
 ### `/discordsrvvoid reload`
 
 Reloads `config.yml` without restarting the server.
@@ -227,6 +235,8 @@ Then reload and watch the server console. Turn it back off after testing unless 
 ```bash
 gradle build
 ```
+
+The build also runs offline tests for command registration, deferred replies, server-thread player reads, vanished-player filtering delegation, empty lists, sorting, and embed limits. These tests do not require a bot token or mutate a Minecraft server.
 
 The jar is written to:
 
