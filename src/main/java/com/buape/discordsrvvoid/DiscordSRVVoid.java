@@ -27,6 +27,8 @@ public final class DiscordSRVVoid extends JavaPlugin implements Listener {
     private final Set<String> blockedNames = new HashSet<>();
     private final Set<UUID> silentPermissionAttachments = new HashSet<>();
 
+    private PlayerListCommand playerListCommand;
+
     private boolean blockChat;
     private boolean blockDeath;
     private boolean blockAdvancement;
@@ -41,6 +43,9 @@ public final class DiscordSRVVoid extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
         DiscordSRV.api.subscribe(this);
+        playerListCommand = new PlayerListCommand(this);
+        DiscordSRV.api.addSlashCommandProvider(playerListCommand);
+        refreshSlashCommands();
 
         getLogger().info("DiscordSRVVoid enabled.");
     }
@@ -48,6 +53,10 @@ public final class DiscordSRVVoid extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         DiscordSRV.api.unsubscribe(this);
+        if (playerListCommand != null) {
+            DiscordSRV.api.removeSlashCommandProvider(playerListCommand);
+            refreshSlashCommands();
+        }
         silentPermissionAttachments.clear();
         getLogger().info("DiscordSRVVoid disabled.");
     }
@@ -142,6 +151,14 @@ public final class DiscordSRVVoid extends JavaPlugin implements Listener {
         silentPermissionAttachments.add(playerId);
 
         debug("Applied DiscordSRV silent permissions for " + player.getName());
+    }
+
+    private void refreshSlashCommands() {
+        // Normal startup is handled by DiscordSRV. Also support enabling/disabling after it is ready.
+        if (DiscordSRV.isReady && DiscordSRV.getPlugin().isEnabled()) {
+            getServer().getScheduler().runTaskAsynchronously(
+                    DiscordSRV.getPlugin(), DiscordSRV.api::updateSlashCommands);
+        }
     }
 
     private void debug(String message) {
